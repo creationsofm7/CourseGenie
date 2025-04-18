@@ -82,7 +82,7 @@ export default async function Home() {
                   </p>
                 </div>
               ) : (
-                data.map((course) => (
+                data.map((course: Course) => (
                     <div
                     key={course.id}
                     className="bg-white p-4 md:p-6 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
