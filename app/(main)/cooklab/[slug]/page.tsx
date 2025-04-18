@@ -87,7 +87,7 @@ export default function Lab() {
 
   useEffect(() => {
     getCourseWithContent(courseid).then((course) => {
-   
+
       setCourse(course);
 
       // console.log(course.modules[0].lessons[0].quiz);
