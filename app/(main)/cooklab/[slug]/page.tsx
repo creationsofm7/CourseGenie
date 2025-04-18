@@ -16,14 +16,14 @@ import { Pen } from "lucide-react";
 interface Lesson {
   id: string;
   name: string;
-  description: string;
-  contenturl: string;
+  description: string | null;
+  contenturl: string | null;
 }
 
 interface Module {
   id: string;
   name: string;
-  description: string;
+  description: string | null;
   lessons?: Lesson[];
 }
 
@@ -86,11 +86,24 @@ export default function Lab() {
   });
 
   useEffect(() => {
-    getCourseWithContent(courseid).then((course) => {
-
-      setCourse(course);
-
-      // console.log(course.modules[0].lessons[0].quiz);
+    getCourseWithContent(courseid).then((courseData) => {
+      // Map the API response to match the Course interface
+      const formattedCourse: Course = {
+        user: courseData.User?.name || "",
+        email: courseData.User?.email || "",
+        name: courseData.name || "",
+        description: courseData.description || "",
+        modules: courseData.modules?.map(module => ({
+          ...module,
+          description: module.description || "",
+          lessons: module.lessons?.map(lesson => ({
+            ...lesson,
+            description: lesson.description || "",
+            contenturl: lesson.contenturl || ""
+          }))
+        }))
+      };
+      setCourse(formattedCourse);
     });
   }, [courseid]);
 
@@ -334,8 +347,8 @@ function CourseList(course: Course) {
                                       setActiveLesson({
                                         id: lesson.id,
                                         name: lesson.name,
-                                        contenturl: lesson.contenturl,
-                                        lesson_description: lesson.description,
+                                        contenturl: lesson.contenturl || "",
+                                        lesson_description: lesson.description || "",
                                       });
                                     }}
                                     className="mt-2 inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-800"
