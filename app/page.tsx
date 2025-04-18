@@ -17,7 +17,15 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Image from "next/image";
-import { Course } from "@/lib/types"; // Import from our types file instead of @prisma/client
+
+interface ICourse {
+  id: string;
+  name: string;
+  description: string | null;
+  userId: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
 export default async function Home() {
   const session = await auth.api.getSession({
@@ -83,7 +91,7 @@ export default async function Home() {
                   </p>
                 </div>
               ) : (
-                data.map((course: Course) => (
+                data.map((course: ICourse ) => (
                     <div
                     key={course.id}
                     className="bg-white p-4 md:p-6 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
