@@ -17,7 +17,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Image from "next/image";
-import { Course } from "@prisma/client";
+import { Course } from "@/lib/types"; // Import from our types file instead of @prisma/client
 
 export default async function Home() {
   const session = await auth.api.getSession({
